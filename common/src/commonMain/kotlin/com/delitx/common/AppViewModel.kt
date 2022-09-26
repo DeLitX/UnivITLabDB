@@ -38,6 +38,12 @@ class AppViewModel : ViewModel() {
         }
     }
 
+    fun deleteTable(table: Table) {
+        _database.update { database ->
+            database?.removeTable(database.tables.indexOf(table))
+        }
+    }
+
     fun addRow(table: Table, row: Row) {
         _database.update { database ->
             database!!.updateTable(database.tables.indexOf(table)) { table ->

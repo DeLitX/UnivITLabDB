@@ -70,6 +70,9 @@ fun App(viewModel: AppViewModel) {
                 },
                 onMergeTablesClick = {
                     Navigator.navigateTo(Screen.MergeTablesScreen)
+                },
+                onTableDeleteClick = { table ->
+                    viewModel.deleteTable(table)
                 }
             )
         }
