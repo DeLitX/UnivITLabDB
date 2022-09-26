@@ -4,6 +4,7 @@ import com.delitx.common.db.row.Row
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlin.reflect.KClass
 
 object Navigator {
 
@@ -25,31 +26,44 @@ object Navigator {
 }
 
 sealed class Screen {
-    abstract fun canNavigateTo(screen: Screen): Boolean
+    abstract val screensCanNavigateTo: List<KClass<Screen>>
+
+    fun canNavigateTo(screen: Screen): Boolean = screensCanNavigateTo.any { it.isInstance(screen) }
 
     object StartScreen : Screen() {
-        override fun canNavigateTo(screen: Screen): Boolean = screen is DatabaseScreen
+        override val screensCanNavigateTo: List<KClass<Screen>> = listOf(
+            DatabaseScreen::class
+        ) as List<KClass<Screen>>
     }
 
     object DatabaseScreen : Screen() {
-        override fun canNavigateTo(screen: Screen) = screen is TableScreen ||
-            screen is TableCreateScreen
+        override val screensCanNavigateTo: List<KClass<Screen>> = listOf(
+            TableScreen::class,
+            TableCreateScreen::class,
+            MergeTablesScreen::class
+        ) as List<KClass<Screen>>
     }
 
     object TableScreen : Screen() {
-        override fun canNavigateTo(screen: Screen) =
-            screen is RowEditScreen || screen is RowCreateScreen
+        override val screensCanNavigateTo: List<KClass<Screen>> = listOf(
+            RowEditScreen::class,
+            RowCreateScreen::class
+        ) as List<KClass<Screen>>
     }
 
     object TableCreateScreen : Screen() {
-        override fun canNavigateTo(screen: Screen) = false
+        override val screensCanNavigateTo: List<KClass<Screen>> = listOf()
+    }
+
+    object MergeTablesScreen : Screen() {
+        override val screensCanNavigateTo: List<KClass<Screen>> = listOf()
     }
 
     data class RowEditScreen(val row: Row) : Screen() {
-        override fun canNavigateTo(screen: Screen): Boolean = false
+        override val screensCanNavigateTo: List<KClass<Screen>> = listOf()
     }
 
     object RowCreateScreen : Screen() {
-        override fun canNavigateTo(screen: Screen): Boolean = false
+        override val screensCanNavigateTo: List<KClass<Screen>> = listOf()
     }
 }

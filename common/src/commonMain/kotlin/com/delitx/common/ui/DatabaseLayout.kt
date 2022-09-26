@@ -16,9 +16,17 @@ fun DatabaseLayout(
     onTableClick: (Table) -> Unit = {},
     onTableDeleteClick: (Table) -> Unit = {},
     onCreateNewTableClick: () -> Unit = {},
+    onMergeTablesClick: () -> Unit = {},
     onDatabaseSave: () -> Unit = {}
 ) {
     LazyColumn(modifier = modifier) {
+        item {
+            if (database.tables.size >= 2) {
+                Button(onClick = onMergeTablesClick, modifier = Modifier.fillParentMaxWidth(1f)) {
+                    Text("Merge tables")
+                }
+            }
+        }
         items(database.tables.size) { index ->
             val table = database.tables[index]
             TableMiniLayout(

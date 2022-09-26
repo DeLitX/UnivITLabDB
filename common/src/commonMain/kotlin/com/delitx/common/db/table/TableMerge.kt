@@ -8,7 +8,7 @@ fun mergeTablesByField(
     firstIndex: Int,
     secondIndex: Int,
     newFieldName: String,
-    newName: String,
+    newName: String
 ): Table {
     val firstAttribute = first.attributes[firstIndex]
     val secondAttribute = second.attributes[secondIndex]

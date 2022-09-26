@@ -15,7 +15,6 @@ import com.delitx.common.ui.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Composable
 fun App(viewModel: AppViewModel) {
@@ -47,6 +46,7 @@ fun App(viewModel: AppViewModel) {
                 modifier = Modifier.fillMaxSize(1f)
             )
         }
+
         is Screen.DatabaseScreen -> {
             DatabaseLayout(
                 database = database!!,
@@ -67,9 +67,13 @@ fun App(viewModel: AppViewModel) {
                             file.setContent(json.encodeToString(db))
                         }
                     }
+                },
+                onMergeTablesClick = {
+                    Navigator.navigateTo(Screen.MergeTablesScreen)
                 }
             )
         }
+
         is Screen.TableScreen -> {
             TableLayout(
                 selectedTable!!,
@@ -85,6 +89,7 @@ fun App(viewModel: AppViewModel) {
                 }
             )
         }
+
         is Screen.RowCreateScreen -> {
             CreateRowLayout(
                 selectedTable!!.attributes,
@@ -95,6 +100,7 @@ fun App(viewModel: AppViewModel) {
                 }
             )
         }
+
         is Screen.RowEditScreen -> {
             EditRowLayout(
                 screen.row,
@@ -106,6 +112,7 @@ fun App(viewModel: AppViewModel) {
                 }
             )
         }
+
         Screen.TableCreateScreen -> {
             TableCreateLayout(
                 modifier = Modifier.fillMaxSize(1f).padding(horizontal = 20.dp),
@@ -113,6 +120,17 @@ fun App(viewModel: AppViewModel) {
                     viewModel.addTable(table)
                     Navigator.navigateBack()
                 }
+            )
+        }
+
+        Screen.MergeTablesScreen -> {
+            MergeTablesLayout(
+                database?.tables!!,
+                onMergeCompleted = { table ->
+                    viewModel.addTable(table)
+                    Navigator.navigateBack()
+                },
+                modifier = Modifier.fillMaxSize(1f).padding(horizontal = 20.dp)
             )
         }
     }
