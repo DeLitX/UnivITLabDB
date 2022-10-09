@@ -18,11 +18,11 @@ dependencies {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdkVersion(33)
     defaultConfig {
         applicationId = "com.delitx.android"
         minSdkVersion(24)
-        targetSdkVersion(31)
+        targetSdkVersion(33)
         versionCode = 1
         versionName = "1.0-SNAPSHOT"
     }
