@@ -66,12 +66,14 @@ private fun ChangeRowLayout(
             }
         }
         item {
-            Button(onClick = {
-                val types = states.filterIsInstance<TypeEditState.Correct>().map { it.type }
-                if (types.size == states.size) {
+            val types = states.filterIsInstance<TypeEditState.Correct>().map { it.type }
+            Button(
+                enabled = types.size == states.size,
+                onClick = {
                     onRowSave(Row.create(types))
-                }
-            }, modifier = Modifier.fillMaxWidth(1f)) {
+                },
+                modifier = Modifier.fillMaxWidth(1f)
+            ) {
                 Text("Save")
             }
         }
@@ -118,6 +120,7 @@ private fun String.toTypeEditState(attribute: Attribute): TypeEditState = when (
             TypeEditState.Error(this)
         }
     }
+
     is TypeDate -> {
         try {
             TypeEditState.Correct(TypeDate(Date(this)), this)
@@ -125,6 +128,7 @@ private fun String.toTypeEditState(attribute: Attribute): TypeEditState = when (
             TypeEditState.Error(this)
         }
     }
+
     is TypeDateInvl -> {
         try {
             val splitted = split("-")
@@ -143,6 +147,7 @@ private fun String.toTypeEditState(attribute: Attribute): TypeEditState = when (
             TypeEditState.Error(this)
         }
     }
+
     is TypeDouble -> {
         val double = toDoubleOrNull()
         if (double == null) {
@@ -153,6 +158,7 @@ private fun String.toTypeEditState(attribute: Attribute): TypeEditState = when (
             TypeEditState.Correct(TypeDouble(double))
         }
     }
+
     is TypeInt -> {
         val int = toIntOrNull()
         if (int == null) {
@@ -161,6 +167,7 @@ private fun String.toTypeEditState(attribute: Attribute): TypeEditState = when (
             TypeEditState.Correct(TypeInt(int))
         }
     }
+
     is TypeString -> {
         TypeEditState.Correct(TypeString(this))
     }

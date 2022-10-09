@@ -88,7 +88,7 @@ fun MergeTablesLayout(
             val firstAttribute = firstTable.attributes[firstAttributeIndex]
             val secondAttribute = secondTable.attributes[secondAttributeIndex]
             val canMergeTables = firstAttribute.isThisType(secondAttribute.type)
-            if (canMergeTables) {
+            if (!canMergeTables) {
                 Text("Attributes must have same types", color = Color.Red)
             }
             Button(
