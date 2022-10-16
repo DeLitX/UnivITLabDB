@@ -32,5 +32,5 @@ fun mergeTablesByField(
             newRows.add(Row.create(resultRowValues))
         }
     }
-    return TableImpl(newName, newNames, newRows)
+    return Table.create(newName, newNames, newRows)
 }
