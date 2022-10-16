@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import kotlinx.serialization.Serializable
 
 @Serializable(with = DateSerializer::class)
-actual class Date actual constructor(actual val value: Long) {
+actual data class Date actual constructor(actual val value: Long) {
     actual constructor(value: String) : this(
         kotlin.run {
             try {
